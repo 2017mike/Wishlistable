@@ -5,9 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <title>Document</title>
-
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
 </head>
 
 <body>
@@ -38,26 +43,73 @@
     Hello, welcome to wishlist.io!! Please click below to make a wishlist. :))
   </p>
 
-  <button><a href="/makeList">
-    Make a Wishlist
-  </a></button>
+  <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
   
+  <div class="row hidden"id="myListRow">
+    <form class="col s12">
+      <div class="row">
+        
+        <div class="input-field col s12">
+          
+          <input placeholder="title" id="listTitle" type="text" class="validate">
+          <label for="first_name">Title</label>
+        </div>
+      </div>
+      <a id="createList" class="waves-effect waves-light btn-large">Create List</a>
+    </form>
+  </div>
 
 
-  <button>
-    View My Wishlists
-  </button>
 
 
 
-
-
-
-
-  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
 
+  function makeid(length) {
+      var result = '';
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+          charactersLength));
+      }
+      return result;
+    }
+
+
+    
+
+
+  document.getElementById("addList").addEventListener('click', event => {
+    document.getElementById('myListRow').classList.remove('hidden')
+  })
+
+   document.getElementById('createList').addEventListener('click', event => {
+      event.preventDefault()
+      let randomURL = makeid(10)
+      console.log(randomURL)
+
+
+      // console.log(tabField.value)
+      let newList = {
+        title: document.getElementById('listTitle').value,
+        randomURL: randomURL
+      }
+      axios.post('/api/lists', newList, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => {
+          console.log(res)
+          alert('your list has been created :)')
+        })
+
+    })
+</script>
 </body>
 
 </html>
