@@ -12,7 +12,7 @@ router.get('/list/:id', (req, res) => {
   res.sendFile(join(__dirname, '..', 'public', 'viewList.html'))
 })
 
-router.get('/makeList', (req, res) => {
+router.get('/makeList/:id', (req, res) => {
   res.sendFile(join(__dirname, '..', 'public', 'makeList.html'))
 })
 

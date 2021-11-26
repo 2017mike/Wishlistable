@@ -27,7 +27,7 @@ router.get('/lists/users', passport.authenticate('jwt'), (req, res) => {
 router.get('/list/:id',
   // passport.authenticate('jwt'), 
   (req, res) => List.findOne({
-    where: { id: req.params.id }
+    where: { randomURL: req.params.id }
     , include: [User]
   })
     .then(lists => res.json(lists))

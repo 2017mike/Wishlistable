@@ -9,9 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <style>
-    .container {
-      padding-top: 10vh;
-    }
+    
   </style>
 </head>
 <body>
@@ -19,6 +17,8 @@
 
 
   <div class="container">
+
+  <div id="title" class="center"></div>
 
 <div class="row center">
   Both title and link are optional, however at least one is required. 
@@ -30,8 +30,8 @@
   <form class="col s12">
     <div class="row">
       <div class="input-field col s12">
-        <input placeholder="title" id="first_name" type="text" class="validate">
-        <label for="first_name">Title (if any)</label>
+        <input placeholder="title" id="myDescription" type="text" class="validate">
+        <label for="first_name">Title/description (if any)</label>
       </div>
       <div class="input-field col s12">
         <input id="myLink" type="text">
@@ -39,7 +39,10 @@
       </div>
     </div>
 
-    <a class="waves-effect waves-light btn-large">Add Item</a>
+    <a id="addItem" class="waves-effect waves-light btn-small">Add Item</a>
+
+
+    <div class="collection" id="myItemsDiv"></div>
    
    
     
@@ -47,37 +50,65 @@
 </div>
 
 </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
 
-  axios.get(`/api/${postId}`, {
+  let listId = window.location.pathname.substr(window.location.pathname.length - 10);
+  // console.log(listId)
+
+  let newData
+
+  axios.get(`/api/list/${listId}`, {
   headers: {
   'Authorization': `Bearer ${localStorage.getItem('token')}`
   }
   })
   .then(({ data }) => {
-  // console.log(data, 'this is post data')
-  //get req or offer
-  
-  //render post
-  document.getElementById('postSong').innerHTML = data.song
-  document.getElementById('postArtist').innerHTML = data.artist
-  document.getElementById('postBody').innerHTML = data.body
-  document.getElementById('postUser').innerHTML = `posted by: ${data.User.username}`
-  
-  
-  //render the comment onto the page
-  // data.comments.forEach(comment => {
-  // document.getElementById('comments').innerHTML += `
-  // <li class="collection-item #212121 grey darken-4 white-text">${comment.body}</li>
-  // `
-  // })
-  
+  newData = data
+  document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
   })
   .catch(err => console.log(err))
 
+
+  document.getElementById('addItem').addEventListener('click', event => {
+      event.preventDefault()
+    if (document.getElementById('myDescription').value=='' && document.getElementById('myLink').value==''){
+      alert('you must have either a description or a link')
+      return
+    }
+
+      let item = {
+        description: document.getElementById('myDescription').value,
+        link: document.getElementById('myLink').value,
+        isDone: false,
+        lid: newData.id
+      }
+      //create comment call
+      axios.post('/api/items', item, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data)
+          document.getElementById('myDescription').value = ''
+          document.getElementById('myLink').value = ''
+          document.getElementById('myItemsDiv').innerHTML += `
+          <li class = "collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          `
+
+
+
+        })
+        .catch(err => console.log(err))
+    })
+
+
+
+
+ 
 
   </script>
 
