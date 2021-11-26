@@ -1,5 +1,12 @@
 const User = require('./User.js')
+const List = require('./List.js')
+const Item = require('./Item.js')
 
-// your relationships go here...
+User.hasMany(List, {foreignKey: 'uid'})
+User.hasMany(Item, {foreignKey: 'uid'})
 
-module.exports = { User }
+List.hasMany(Item, { foreignKey: 'lid'})
+List.belongsTo(User, {foreignKey: 'uid'})
+
+
+module.exports = { User, List, Item }
