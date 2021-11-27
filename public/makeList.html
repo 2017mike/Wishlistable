@@ -15,9 +15,7 @@
       cursor: pointer;
     }
     
-    .done {
-      background-color: green;
-    }
+    
   </style>
 </head>
 <body>
@@ -43,7 +41,8 @@
   <div id="title" class="center"></div>
 
 <div class="row center">
-  Items with green backgrounds have been marked as bought!
+  Add an item, with an optional link. Once you've made your list, you can share your link with family and friends :). You can always come back and update your list :)
+ 
 </div>
 
 
@@ -53,7 +52,7 @@
     <div class="row">
       <div class="input-field col s12">
         <input placeholder="title" id="myDescription" type="text" class="validate">
-        <label for="first_name">Title/description (if any)</label>
+        <label for="first_name">Title/description</label>
       </div>
       <div class="input-field col s12">
         <input id="myLink" type="text">
@@ -89,27 +88,42 @@
       });
 
   let listId = window.location.pathname.substr(window.location.pathname.length - 10);
-  // console.log(listId)
+
 
   let newListData
   let newID
 
-  
+  let newestID
 
 
 
-   axios.get(`/api/list/${listId}`, {
+//we make an axios get for all of the user's lists and find the one with the matching URL. We then make an axios request for all of the items within that list to be added to the page. The trash can icon contains the dataset-id of the item, and once it's clicked it is deleted according to that id. 
+   axios.get(`/api/lists/users`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then(({ data }) => {
+        console.log(data)
+
+        if(data.length == 0){
+          console.log('nothing')
+        }
+
+
+        data.forEach(list => {
+          if (listId == list.randomURL) {
+            newID = list.id
+            newListTitle = list.title
+            console.log(newID)
+            newListData = list
+          }
+        })
         
-        newListData = data
-        console.log(newListData.id)
-        newID = newListData.id
-        console.log(newListData, 'lists')
-        document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
+        console.log(newID)
+        document.getElementById('title').innerHTML = `<h2> ${newListTitle} </h2>`
+        console.log(newListTitle)
+       
       })
         axios.get(`/api/items`, {
           headers: {
@@ -125,7 +139,7 @@
               if (item.lid == newID) {
                 console.log('da same')
                 document.getElementById('myItemsDiv').innerHTML += `
-                <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
+                <li  class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
                 <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
                 </li>
                 `
@@ -161,7 +175,7 @@
             document.getElementById('myDescription').value = ''
             document.getElementById('myLink').value = ''
             document.getElementById('myItemsDiv').innerHTML += `
-          <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item ${data.isDone ? 'done' : ""}"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
           <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
           `
 

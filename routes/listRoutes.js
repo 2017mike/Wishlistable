@@ -23,6 +23,7 @@ router.get('/lists/users', passport.authenticate('jwt'), (req, res) => {
     .catch(err => console.log(err))
 })
 
+
 //get one list by id
 router.get('/list/:id',
   // passport.authenticate('jwt'), 
