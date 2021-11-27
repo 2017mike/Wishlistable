@@ -68,8 +68,10 @@
    
    
   
-    <a id="addItem" class="waves-effect waves-light btn-small">Share List</a>
+    <a id="shareList" class="waves-effect waves-light btn-small">Share List</a>
+    <div id="shareLink"></div>
 
+   
 
   </form>
 </div>
@@ -78,14 +80,32 @@
   <script src="/assets/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+  
   <script>
+
+
+
+  
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems, {});
+      });
 
   let listId = window.location.pathname.substr(window.location.pathname.length - 10);
   // console.log(listId)
 
   let newListData
   let newID
+
+  document.getElementById('shareList').addEventListener('click', event => {
+      document.getElementById('shareLink').innerHTML = `
+  <h5>  shareable link: https://mywishlistio.herokuapp.com/list/${listId} </h5>
+  `
+    })
 
 
 
