@@ -1,32 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <style>
+
+
+    .done {
+      display: none;
+    }
+   
+  </style>
 </head>
+
 <body>
 
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Logo</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-      </ul>
+
+
+
+  <div class="container">
+
+    <div id="title" class="center"></div>
+
+   
+   
+
+
+
+        <div class="collection" id="myItemsDiv"></div>
+
+
+
+      
+
+
+      </form>
     </div>
-  </nav>
-  
-  <ul class="sidenav" id="mobile-demo">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">Javascript</a></li>
-    <li><a href="mobile.html">Mobile</a></li>
-  </ul>
-  
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script>
+
+    let listId = window.location.pathname.substr(window.location.pathname.length - 10);
+    // console.log(listId)
+
+    let newListData
+    let newID
+
+    axios.get(`/api/list/${listId}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(({ data }) => {
+
+        newListData = data
+        console.log(newListData.id)
+        newID = newListData.id
+        console.log(newListData, 'lists')
+        document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
+      })
+    axios.get(`/api/items`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(({ data }) => {
+        console.log(data), 'items'
+
+        data.forEach(item => {
+
+          console.log(newID)
+          if (item.lid == newID) {
+            console.log('da same')
+            document.getElementById('myItemsDiv').innerHTML += `
+                
+                <li data-description='${item.description}' class="collection-item ${item.isDone ? 'done' : ""}"> ${item.description}
+                <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
+                <i data-id='${item.id}' class="material-icons checkBtn green-text">check</i>
+                </li>
+                
+                `
+
+          }
+        }
+        )
+      })
+
+      .catch(err => console.log(err))
+
+
+    document.addEventListener('click', event => {
+
+      if (event.target.classList.contains('checkBtn')) {
+        let upDatedItem = {
+          description: event.target.dataset.description, 
+          link: event.target.dataset.link,
+          isDone: true
+        }
+        axios.put(`/api/items/${event.target.dataset.id}`, upDatedItem, {
+          
+        })
+          .then(res => {
+            console.log('updated')
+            window.location.reload()
+
+          })
+
+      }
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+
 </body>
+
 </html>

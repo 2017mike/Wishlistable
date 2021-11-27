@@ -29,4 +29,11 @@ router.delete('/items/:id', passport.authenticate('jwt'), (req, res) => Item.des
   .catch(err => console.log(err)))
 
 
+
+router.put('/items/:id', (req, res) => Item.update(req.body, { where: { id: req.params.id } })
+  .then(() => res.sendStatus(200))
+  .catch(err => console.log(err)))
+
+
+
 module.exports = router

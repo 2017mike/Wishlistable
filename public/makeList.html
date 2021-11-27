@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Create Your Wishlist</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <style>
+
+    .deleteBtn {
+      cursor: pointer;
+    }
     
+    .done {
+      background-color: green;
+    }
   </style>
 </head>
 <body>
@@ -22,6 +29,8 @@
 
 <div class="row center">
   Both title and link are optional, however at least one is required. 
+  <br>
+  Items with green backgrounds have been marked as bought!
 </div>
 
 
@@ -45,7 +54,10 @@
     <div class="collection" id="myItemsDiv"></div>
    
    
-    
+  
+    <a id="addItem" class="waves-effect waves-light btn-small">Share List</a>
+
+
   </form>
 </div>
 
@@ -60,6 +72,8 @@
 
   let newListData
   let newID
+
+
 
    axios.get(`/api/list/${listId}`, {
       headers: {
@@ -88,8 +102,9 @@
               if (item.lid == newID) {
                 console.log('da same')
                 document.getElementById('myItemsDiv').innerHTML += `
-                <li class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> </li>
+                <li ${item.isDone ? 'style="background-color: green;' : ""} class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
                 <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
+                </li>
                 `
               }
             }
@@ -99,21 +114,55 @@
       .catch(err => console.log(err))
 
 
-        document.addEventListener('click', event => {
+    document.getElementById('addItem').addEventListener('click', event => {
+        event.preventDefault()
+        if (document.getElementById('myDescription').value == '' && document.getElementById('myLink').value == '') {
+          alert('you must have either a description or a link')
+          return
+        }
 
-            if (event.target.classList.contains('deleteBtn')) {
+        let item = {
+          description: document.getElementById('myDescription').value,
+          link: document.getElementById('myLink').value,
+          isDone: false,
+          lid: newListData.id
+        }
+        //create comment call
+        axios.post('/api/items', item, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+          .then(({ data }) => {
+            // console.log(data)
+            document.getElementById('myDescription').value = ''
+            document.getElementById('myLink').value = ''
+            document.getElementById('myItemsDiv').innerHTML += `
+          <li ${item.isDone ? 'style="background-color: green;' : ""} class = "collection-item ${data.isDone ? 'done' : ""}"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
+          `
+
+
+
+          })
+          .catch(err => console.log(err))
+      })
+
+
+    document.addEventListener('click', event => {
+
+      if (event.target.classList.contains('deleteBtn')) {
              
-                axios.delete(`/api/items/${event.target.dataset.id}`, {
-                  headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                  }
-                })
-                  .then(res => {
+        axios.delete(`/api/items/${event.target.dataset.id}`, {
+         headers: {
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+            })
+          .then(res => {
                    
-                    window.location.reload()
+            window.location.reload()
 
-                  })
-              
+              })
             }
           })
 
@@ -126,39 +175,7 @@
  
 
 
-  document.getElementById('addItem').addEventListener('click', event => {
-      event.preventDefault()
-    if (document.getElementById('myDescription').value=='' && document.getElementById('myLink').value==''){
-      alert('you must have either a description or a link')
-      return
-    }
-
-      let item = {
-        description: document.getElementById('myDescription').value,
-        link: document.getElementById('myLink').value,
-        isDone: false,
-        lid: newListData.id
-      }
-      //create comment call
-      axios.post('/api/items', item, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(({ data }) => {
-          // console.log(data)
-          document.getElementById('myDescription').value = ''
-          document.getElementById('myLink').value = ''
-          document.getElementById('myItemsDiv').innerHTML += `
-          <li class = "collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
-          <i class="material-icons deleteBtn">delete</i>
-          `
-
-
-
-        })
-        .catch(err => console.log(err))
-    })
+ 
 
 
 

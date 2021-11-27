@@ -14,7 +14,7 @@ router.get('/lists',
     .catch(err => console.log(err)))
 
 //get all lists from one user
-router.get('/lists/users', passport.authenticate('jwt'), (req, res) => {
+router.get('/lists/users', (req, res) => {
   List.findAll({
     where: { uid: req.user.id },
     // include: [User, Comment]
