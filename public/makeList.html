@@ -83,13 +83,6 @@
   
   <script>
 
-
-
-  
-
-
-
-
     document.addEventListener('DOMContentLoaded', function () {
         var elems = document.querySelectorAll('.modal');
         var instances = M.Modal.init(elems, {});
@@ -101,11 +94,7 @@
   let newListData
   let newID
 
-  document.getElementById('shareList').addEventListener('click', event => {
-      document.getElementById('shareLink').innerHTML = `
-  <h5>  shareable link: https://mywishlistio.herokuapp.com/list/${listId} </h5>
-  `
-    })
+  
 
 
 
@@ -200,6 +189,17 @@
             }
           })
 
+
+  document.getElementById('shareList').addEventListener('click', event => {
+      document.getElementById('shareLink').innerHTML = `
+      <h5> Shareable Link: </h5>
+  <h5> https://mywishlistio.herokuapp.com/list/${listId} </h5>
+
+  `
+    })
+
+
+  
 
 
   
