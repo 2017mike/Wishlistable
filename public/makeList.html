@@ -124,7 +124,7 @@
         document.getElementById('title').innerHTML = `<h2> ${newListTitle} </h2>`
         console.log(newListTitle)
        
-      })
+      
         axios.get(`/api/items`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -147,6 +147,8 @@
             }
             )
           })
+
+        })
       
       .catch(err => console.log(err))
 
