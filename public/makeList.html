@@ -7,6 +7,7 @@
   <title>Create Your Wishlist</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/assets/all.css">
 
   <style>
 
@@ -21,6 +22,20 @@
 </head>
 <body>
 
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">MyWishList</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li id="signOutConditional"></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <ul class="sidenav" id="mobile-demo">
+    <li id="signOutNav"></li>
+  </ul>
+
 
 
   <div class="container">
@@ -28,8 +43,6 @@
   <div id="title" class="center"></div>
 
 <div class="row center">
-  Both title and link are optional, however at least one is required. 
-  <br>
   Items with green backgrounds have been marked as bought!
 </div>
 
@@ -62,6 +75,7 @@
 </div>
 
 </div>
+  <script src="/assets/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -102,7 +116,7 @@
               if (item.lid == newID) {
                 console.log('da same')
                 document.getElementById('myItemsDiv').innerHTML += `
-                <li ${item.isDone ? 'style="background-color: green;' : ""} class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
+                <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
                 <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
                 </li>
                 `
@@ -138,7 +152,7 @@
             document.getElementById('myDescription').value = ''
             document.getElementById('myLink').value = ''
             document.getElementById('myItemsDiv').innerHTML += `
-          <li ${item.isDone ? 'style="background-color: green;' : ""} class = "collection-item ${data.isDone ? 'done' : ""}"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item ${data.isDone ? 'done' : ""}"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
           <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
           `
 

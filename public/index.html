@@ -7,11 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./assets/all.css">
   <title>Document</title>
+
 <style>
-  .hidden {
-    display: none;
-  }
+  
 </style>
 </head>
 
@@ -20,28 +20,24 @@
 
   <nav>
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Logo</a>
+      <a href="/" class="brand-logo">MyWishList</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
+        <li id="signOutConditional"></li>
       </ul>
     </div>
   </nav>
   
   <ul class="sidenav" id="mobile-demo">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">Javascript</a></li>
-    <li><a href="mobile.html">Mobile</a></li>
+    <li id="signOutNav"></li>
   </ul>
 
 
-  <p>
-    Hello, welcome to wishlist.io!! Please click below to make a wishlist. :))
-  </p>
+ 
+<div class="container">
+  <h3>
+    Hello, welcome to MyWishList!! Please click below to make a wishlist. :)
+  </h3>
 
   <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
   
@@ -58,11 +54,18 @@
       <a id="createList" class="waves-effect waves-light btn-large">Create List</a>
     </form>
   </div>
+  <div class="title">
+    <h3>
+      My Lists
+    </h3>
+  </div>
+  <div class="collection" id="myLists"></div>  
+
+</div>
 
 
 
-
-
+  <script src="./assets/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -78,10 +81,6 @@
       }
       return result;
     }
-
-
-    
-
 
   document.getElementById("addList").addEventListener('click', event => {
     document.getElementById('myListRow').classList.remove('hidden')
@@ -110,6 +109,88 @@
         })
 
     })
+
+    axios.get(`/api/lists/users`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+
+          data.forEach(list=>{
+          document.getElementById('myLists').innerHTML += `
+          <li>
+          <a data-link="${list.randomURL}" href="/makeList/${list.randomURL}">${list.title}</a>
+          </li>
+          
+          `
+          })
+        })
+    
+
+    function displaySignOut() {
+
+        localStorage.getItem('token')
+        if (localStorage.getItem("token") === null) {
+          const signOut2 = document.createElement('li')
+          signOut2.innerHTML = `
+      <li id="logInButtonMain"><a href="/login">Log In</a></li>
+      `
+          document.getElementById('signOutConditional').append(signOut2)
+          document.getElementById('logInButtonMain').addEventListener('click', event => {
+            window.location = '/login'
+          })
+
+
+        } else {
+
+          const signOut1 = document.createElement('li')
+          signOut1.innerHTML = `
+      <li id="signOutMain"><a href="/login">Sign Out</a></li>
+      `
+          document.getElementById('signOutConditional').append(signOut1)
+          document.getElementById('signOutMain').addEventListener('click', event => {
+            localStorage.removeItem('token')
+            window.location = '/login'
+          })
+
+        }
+      }
+
+      function displaySignOutNav() {
+
+        localStorage.getItem('token')
+        if (localStorage.getItem("token") === null) {
+          const signOut2 = document.createElement('li')
+          signOut2.innerHTML = `
+      <li id="logInButtonNav"><a href="/login">Log In</a></li>
+      `
+          document.getElementById('signOutNav').append(signOut2)
+          document.getElementById('logInButtonNav').addEventListener('click', event => {
+            window.location = '/login'
+          })
+        } else {
+
+          const signOut1 = document.createElement('li')
+          signOut1.innerHTML = `
+      <li id="signOutButtonNav"><a href="/login">Sign Out</a></li>
+      `
+          document.getElementById('signOutNav').append(signOut1)
+          document.getElementById('signOutButtonNav').addEventListener('click', event => {
+            localStorage.removeItem('token')
+            window.location = '/login'
+          })
+        }
+      }
+
+
+      displaySignOut()
+      displaySignOutNav()
+
+
+
+
 </script>
 </body>
 

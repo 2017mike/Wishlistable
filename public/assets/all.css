@@ -1,0 +1,28 @@
+body {
+  background-color: #FAFFFD;
+  color: #342E37;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn-small {
+  background-color: #3C91E6 !important;
+}
+
+.truncate {
+  color: #3C91E6;
+}
+
+.btn-large {
+  background-color: #3C91E6 !important;
+}
+
+.nav-wrapper {
+  background-color: #342E37;
+}
+
+.sidenav {
+  background-color: #342E37;
+}

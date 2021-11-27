@@ -8,6 +8,7 @@
   <title>Document</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/assets/all.css">
 
   <style>
 
@@ -21,6 +22,20 @@
 
 <body>
 
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">MyWishList</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li id="signOutConditional"></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <ul class="sidenav" id="mobile-demo">
+    <li id="signOutNav"></li>
+  </ul>
 
 
 
@@ -44,10 +59,23 @@
     </div>
 
   </div>
+
+  <script src="./assets/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, {});
+      })
+
+      M.AutoInit();
+      document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+      })
 
     let listId = window.location.pathname.substr(window.location.pathname.length - 10);
     // console.log(listId)
@@ -66,7 +94,11 @@
         console.log(newListData.id)
         newID = newListData.id
         console.log(newListData, 'lists')
-        document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
+        document.getElementById('title').innerHTML = 
+        `<h2> ${data.title} </h2>
+        
+        by <h4> ${data.User.username} </h4>
+        `
       })
     axios.get(`/api/items`, {
       headers: {
@@ -117,6 +149,66 @@
 
       }
     })
+
+    function displaySignOut() {
+
+        localStorage.getItem('token')
+        if (localStorage.getItem("token") === null) {
+          const signOut2 = document.createElement('li')
+          signOut2.innerHTML = `
+      <li id="logInButtonMain"><a href="/login">Log In</a></li>
+      `
+          document.getElementById('signOutConditional').append(signOut2)
+          document.getElementById('logInButtonMain').addEventListener('click', event => {
+            window.location = '/login'
+          })
+
+
+        } else {
+
+          const signOut1 = document.createElement('li')
+          signOut1.innerHTML = `
+      <li id="signOutMain"><a href="/login">Sign Out</a></li>
+      `
+          document.getElementById('signOutConditional').append(signOut1)
+          document.getElementById('signOutMain').addEventListener('click', event => {
+            localStorage.removeItem('token')
+            window.location = '/login'
+          })
+
+        }
+      }
+
+      function displaySignOutNav() {
+
+        localStorage.getItem('token')
+        if (localStorage.getItem("token") === null) {
+          const signOut2 = document.createElement('li')
+          signOut2.innerHTML = `
+      <li id="logInButtonNav"><a href="/login">Log In</a></li>
+      `
+          document.getElementById('signOutNav').append(signOut2)
+          document.getElementById('logInButtonNav').addEventListener('click', event => {
+            window.location = '/login'
+          })
+        } else {
+
+          const signOut1 = document.createElement('li')
+          signOut1.innerHTML = `
+      <li id="signOutButtonNav"><a href="/login">Sign Out</a></li>
+      `
+          document.getElementById('signOutNav').append(signOut1)
+          document.getElementById('signOutButtonNav').addEventListener('click', event => {
+            localStorage.removeItem('token')
+            window.location = '/login'
+          })
+        }
+      }
+
+
+      displaySignOut()
+      displaySignOutNav()
+
 
 
 
