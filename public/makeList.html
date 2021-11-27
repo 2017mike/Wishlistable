@@ -67,8 +67,13 @@
    
    
   
-    <a id="shareList" class="waves-effect waves-light btn-small">Share List</a>
-    <div id="shareLink"></div>
+    <a href="#shareLink" id="shareList" class="waves-effect waves-light btn-small modal-trigger">Share List</a>
+    <div class="modal" id="shareLink"></div>
+
+
+
+
+
 
    
 
@@ -76,11 +81,17 @@
 </div>
 
 </div>
-  <script src="/assets/all.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  
+  <script src="/assets/all.js"></script>
   <script>
+
+    $(document).ready(function(){
+      $('.modal').modal()
+    })
 
     document.addEventListener('DOMContentLoaded', function () {
         var elems = document.querySelectorAll('.modal');
@@ -177,12 +188,10 @@
             document.getElementById('myDescription').value = ''
             document.getElementById('myLink').value = ''
             document.getElementById('myItemsDiv').innerHTML += `
-          <li ${item.isDone ? 'style="background-color: #9FD356;' : ""} class = "collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          <li class ="collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> 
           <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
+          </li>
           `
-
-
-
           })
           .catch(err => console.log(err))
       })

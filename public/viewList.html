@@ -11,9 +11,11 @@
   <link rel="stylesheet" href="/assets/all.css">
 
   <style>
-    .done {
-      background-color: gray;
+   
+    .checkBtn {
+      cursor: pointer;
     }
+
   </style>
 </head>
 
@@ -49,6 +51,10 @@
 
     </div>
   
+    <a href="#shareLink" id="shareList" class="waves-effect waves-light btn-small modal-trigger">Share List</a>
+    <div class="modal" id="shareLink"></div>
+
+    
   </div>
 
   </div>
@@ -58,6 +64,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
+
+
+
 
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.sidenav');
