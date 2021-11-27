@@ -58,18 +58,72 @@
   let listId = window.location.pathname.substr(window.location.pathname.length - 10);
   // console.log(listId)
 
-  let newData
+  let newListData
+  let newID
 
-  axios.get(`/api/list/${listId}`, {
-  headers: {
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
-  }
-  })
-  .then(({ data }) => {
-  newData = data
-  document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
-  })
-  .catch(err => console.log(err))
+   axios.get(`/api/list/${listId}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(({ data }) => {
+        
+        newListData = data
+        console.log(newListData.id)
+        newID = newListData.id
+        console.log(newListData, 'lists')
+        document.getElementById('title').innerHTML = `<h2> ${data.title} </h2>`
+      })
+        axios.get(`/api/items`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+          .then(({ data }) => {
+            console.log(data), 'items'
+            
+            data.forEach(item => {
+              
+              console.log(newID)
+              if (item.lid == newID) {
+                console.log('da same')
+                document.getElementById('myItemsDiv').innerHTML += `
+                <li class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> </li>
+                <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
+                `
+              }
+            }
+            )
+          })
+      
+      .catch(err => console.log(err))
+
+
+        document.addEventListener('click', event => {
+
+            if (event.target.classList.contains('deleteBtn')) {
+             
+                axios.delete(`/api/items/${event.target.dataset.id}`, {
+                  headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  }
+                })
+                  .then(res => {
+                   
+                    window.location.reload()
+
+                  })
+              
+            }
+          })
+
+
+
+  
+
+
+
+ 
 
 
   document.getElementById('addItem').addEventListener('click', event => {
@@ -83,7 +137,7 @@
         description: document.getElementById('myDescription').value,
         link: document.getElementById('myLink').value,
         isDone: false,
-        lid: newData.id
+        lid: newListData.id
       }
       //create comment call
       axios.post('/api/items', item, {
@@ -97,6 +151,7 @@
           document.getElementById('myLink').value = ''
           document.getElementById('myItemsDiv').innerHTML += `
           <li class = "collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> </li>
+          <i class="material-icons deleteBtn">delete</i>
           `
 
 

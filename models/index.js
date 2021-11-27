@@ -8,5 +8,7 @@ User.hasMany(Item, {foreignKey: 'uid'})
 List.hasMany(Item, { foreignKey: 'lid'})
 List.belongsTo(User, {foreignKey: 'uid'})
 
+// Item.belongsTo(List, { foreignKey: 'lid'})
+
 
 module.exports = { User, List, Item }
