@@ -170,10 +170,22 @@
           alert('you must have either a description or a link')
           return
         }
+        let linkArea = document.getElementById('myLink').value
+        console.log(linkArea)
+        let subStringedLink = linkArea.substring(0, 3)
+
+        if (subStringedLink === 'www') {
+          linkArea = 'https://' + linkArea
+          console.log(subStringedLink)
+        }
+         else if (subStringedLink != 'htt') {
+          linkArea = 'https://www.' + linkArea
+        } 
+        
 
         let item = {
           description: document.getElementById('myDescription').value,
-          link: document.getElementById('myLink').value,
+          link: linkArea,
           isDone: false,
           lid: newListData.id
         }
@@ -188,7 +200,9 @@
             document.getElementById('myDescription').value = ''
             document.getElementById('myLink').value = ''
             document.getElementById('myItemsDiv').innerHTML += `
-          <li class ="collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}</a> 
+          <li class ="collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}
+            
+            </a> 
           <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
           </li>
           `
