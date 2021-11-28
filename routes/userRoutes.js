@@ -3,6 +3,18 @@ const { User } = require('../models')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
+
+
+router.get('/users', (req, res) => {
+  User.findAll({
+    // include: [User]
+  })
+    .then(lists => res.json(lists))
+    .catch(err => console.log(err))
+})
+
+
+
 router.post('/users/register', (req, res) => {
   const {
     username

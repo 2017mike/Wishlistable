@@ -19,9 +19,7 @@
   <style>
     body {
       font-family: Cutive Mono, arial;
-
       background: #222;
-     
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center center;
@@ -39,10 +37,7 @@
       overflow-y: auto;
     }
 
-    /* main {
-    background: black;
-  } */
-
+   
     .swal2-shown {
       display: flex;
       height: 112vh;
@@ -59,11 +54,6 @@
 
     }
 
-    /* .myLog {
-      padding-right: 10px;
-      padding-left: 10px;
-     
-    } */
 
     @media screen and (max-width: 676px) {
       .myFont {
@@ -81,14 +71,14 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col m6  s12 white-text center myRow ">
+      <div class="col  s12 m12 l6  white-text center myRow ">
         <h2 class="myFont">myWishList.io</h2>
 
 
 
 
       </div>
-      <div class="z-depth-1 transparent   myLog  col s12 m6 "
+      <div class="z-depth-1 transparent   myLog  col s12 m12 l6 "
         style="display: inline-block; padding: 32px 32px 0px 32px; border: 1px solid #EEE; margin-top: 12px;">
         <h5 class="white-text center">Create an account</h5>
         <form class="col s12 " method="post">
@@ -121,26 +111,67 @@
               <a type='submit' name='btn_login' class='col s12 btn btn-large waves-effect black' id='register'
                 href="/register.html">Create Account</a>
               <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+              <div class='col s12'></div>
+
+
+              <p class="white-text"> Already have an account? </p> <a href="/login" class="btn-small">Log In</a>
             </div>
           </center>
         </form>
       </div>
     </div>
+    
   </div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- our javascript -->
 
   <script>
+   
+
     document.getElementById('register').addEventListener('click', event => {
       event.preventDefault()
-      axios.post('/api/users/register', {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value
+     let goBack = false
+       axios.get(`/api/users`, {
+
       })
-        .then(() => window.location = '/login')
-        .catch(err => console.error(err))
+        .then(({ data }) => {
+          console.log(data)
+          data.forEach(user=>{
+            console.log(user.username)
+            if (user.username == document.getElementById('username').value) {
+              alert('that username is not available')
+              goBack = true
+              return
+              
+            } 
+          })
+               axios.post('/api/users/register', {
+              username: document.getElementById('username').value,
+              password: document.getElementById('password').value
+            })
+              .then(() => {
+                if (!goBack) {
+                 window.location = '/login'
+                }
+              }
+             )
+              .catch(err => console.error(err))
+          
+         
+      
+      
+   
     })
+
+  })
 
     
   </script>

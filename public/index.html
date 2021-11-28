@@ -35,8 +35,8 @@
 
  
 <div class="container">
-  <h3>
-    Hello, welcome to MyWishList!! Make sure to sign in and then click below to make a wishlist. :)
+  <h3 id="myTitle">
+    Hello, welcome to MyWishList! Click below to begin making your wishlist :)
   </h3>
 
   <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
@@ -73,6 +73,14 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
+
+
+
+  localStorage.getItem('token')
+    if (localStorage.getItem("token") === null) {
+      window.location = '/register'
+    } 
+     
 
   function makeid(length) {
       var result = '';
