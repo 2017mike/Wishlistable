@@ -93,7 +93,7 @@
     <br>
 
     <div class="center">
-    <a href="/register" style="padding-bottom: 10px;" class="waves-effect waves-light btn">Make your own Wishlist!</a>
+    <a id="makeYourOwnBtn" style="padding-bottom: 10px;" class="waves-effect waves-light btn">Make your own Wishlist!</a>
       </div>
 
   </div>
@@ -295,6 +295,15 @@
 
     displaySignOut()
     displaySignOutNav()
+
+
+    document.getElementById('makeYourOwnBtn').addEventListener('click', event => {
+      if(localStorage.getItem('token')){
+        window.location='/home'
+      } else {
+        window.location='/register'
+      }
+    })
 
 
 
