@@ -158,6 +158,7 @@
           `<h2> ${data.title} </h2>
         by <h4> ${data.User.username} </h4>
         `
+        document.title=`${data.User.username}'s wishlist'`
 
         axios.get(`/api/items`, {
           headers: {
