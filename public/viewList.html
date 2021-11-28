@@ -11,11 +11,50 @@
   <link rel="stylesheet" href="/assets/all.css">
 
   <style>
-   
     .checkBtn {
       cursor: pointer;
     }
 
+    .cancel {
+      cursor: pointer;
+    }
+
+    .modal-trigger {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .myModal {
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0);
+      /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      /* Could be more or less, depending on screen size */
+    }
   </style>
 </head>
 
@@ -40,21 +79,21 @@
     <div id="title" class="center"></div>
     <h5>Once you have bought an item, click the green check icon to move it into the "Already Bought" section. </h5>
     <div class="row">
-    <div class="collection col s12 m6 l6" id="myItemsDiv">
-      <h4>Not Yet Bought</h4>
+      <div class="collection col s12 m6 l6" id="myItemsDiv">
+        <h4>Not Yet Bought</h4>
+      </div>
+
+
+      <div class="collection col s12 m6 l6" id="boughtItemsDiv">
+        <h4>Already Bought</h4>
+      </div>
+
     </div>
 
+    <!-- <a href="#shareLink" id="shareList" class="waves-effect waves-light btn-small modal-trigger">Share List</a>
+    <div class="modal" id="shareLink"></div> -->
 
-    <div class="collection col s12 m6 l6" id="boughtItemsDiv"> 
-      <h4>Already Bought</h4>
-    </div>
 
-    </div>
-  
-    <a href="#shareLink" id="shareList" class="waves-effect waves-light btn-small modal-trigger">Share List</a>
-    <div class="modal" id="shareLink"></div>
-
-    
   </div>
 
   </div>
@@ -64,6 +103,26 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
+
+
+    document.addEventListener('click', event => {
+      if (event.target.classList.contains('modal-trigger')) {
+        console.log('ping')
+        let nextSibling = event.target.nextElementSibling
+        console.log(nextSibling.textContent)
+        nextSibling.classList.remove('hidden')
+        document.addEventListener('click', event => {
+          window.location.reload()
+        })
+      }
+    })
+
+
+    document.addEventListener('click', event => {
+      if (event.target.classList.contains('cancel')){
+        window.location.reload()
+      }
+    })
 
 
 
@@ -80,7 +139,6 @@
     })
 
     let listId = window.location.pathname.substr(window.location.pathname.length - 10);
-    // console.log(listId)
 
     let newListData
     let newID
@@ -98,47 +156,58 @@
         console.log(newListData, 'lists')
         document.getElementById('title').innerHTML =
           `<h2> ${data.title} </h2>
-        
         by <h4> ${data.User.username} </h4>
         `
-      
-    axios.get(`/api/items`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then(({ data }) => {
-        console.log(data), 'items'
 
-        data.forEach(item => {
-
-          console.log(newID)
-          if (item.lid == newID) {
-            console.log('da same')
-            if (item.isDone) {
-            document.getElementById('boughtItemsDiv').innerHTML += `
-                
-                <li data-description='${item.description}' class="collection-item ${item.isDone ? 'done' : ""}"> ${item.description}
-                <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
-                
-                </li>
-                
-                `
-              } else {
-                 document.getElementById('myItemsDiv').innerHTML += `
-                
-                <li data-description='${item.description}' class="collection-item ${item.isDone ? 'done' : ""}"> ${item.description}
-                <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
-                <i data-id='${item.id}' class="material-icons checkBtn green-text">check</i>
-                </li>
-                
-                `
-              }
-
+        axios.get(`/api/items`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
-        }
-        )
-      })
+        })
+          .then(({ data }) => {
+
+
+            data.forEach(item => {
+
+              console.log(newID)
+              if (item.lid == newID) {
+
+                if (item.isDone) {
+                  document.getElementById('boughtItemsDiv').innerHTML += `
+                <li data-description='${item.description}' class="collection-item"> ${item.description}
+                <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
+                </li>
+                `
+                } else {
+
+                  document.getElementById('myItemsDiv').innerHTML += `
+                <li data-description='${item.description}' class="collection-item"> ${item.description}
+                <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
+                <br>
+                <i  class="material-icons green-text modal-trigger">check</i>
+                <div class="myModal hidden">
+                  <div class="modal-content">
+                  Clicking this means that you have bought the item. Please click the checkmark below if you have bought this item! If not, press cancel or anywhere else on the page. 
+                  <br>
+                  <br>
+                  <br>
+                  <div class="center">
+                  <i class="material-icons checkBtn green-text center" data-id='${item.id}'>check</i>
+                  <br>
+                  <br>
+                  <i class="material-icons red-text center cancel">cancel</i>
+                  </div>
+                  </div>
+                </div>
+                </li>
+                `
+
+                }
+
+              }
+            }
+            )
+          })
       })
 
       .catch(err => console.log(err))
@@ -147,7 +216,7 @@
     document.addEventListener('click', event => {
 
       if (event.target.classList.contains('checkBtn')) {
-        
+
         let upDatedItem = {
           description: event.target.dataset.description,
           link: event.target.dataset.link,
@@ -223,6 +292,11 @@
 
     displaySignOut()
     displaySignOutNav()
+
+
+
+
+
 
 
 
