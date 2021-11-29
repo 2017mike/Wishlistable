@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="./assets/all.css">
   <title>Wishlistable Home</title>
 
-<style>
+  <style>
     body {
       font-family: Roboto, arial;
       background: black;
@@ -37,8 +37,8 @@
 
 
 
-  
-   
+
+
     .swal2-shown {
       display: flex;
       height: 112vh;
@@ -65,8 +65,7 @@
     .myInput {
       font-family: Cutive Mono, arial;
     }
- 
-</style>
+  </style>
 </head>
 
 <body>
@@ -81,7 +80,7 @@
       </ul>
     </div>
   </nav>
-  
+
   <ul class="sidenav" id="mobile-demo">
     <li> <a style="padding-top: 10px;" href="/home">Home</a> </li>
     <br>
@@ -89,119 +88,36 @@
     <li id="signOutNav"></li>
   </ul>
 
-
- 
-<div class="container">
-  <h3 id="myTitle">
-    Hello, welcome to Wishlistable! Click below to begin making your wishlist :)
-  </h3>
-
-  <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
-  
-  <div class="row hidden"id="myListRow">
-    <form class="col s12">
-      <div class="row">
-        
-        <div class="input-field col s12">
-          
-          <input placeholder="title" id="listTitle" type="text" class="white-text">
-          <label for="first_name">Title</label>
-        </div>
-      </div>
-      <button id="createList" class="waves-effect waves-light btn-large">Create List</button>
-    </form>
-  </div>
-  <div class="title">
-    <h3>
-      My Lists
+  <div class="container">
+    <h3 id="myTitle">
+      Hello, welcome to Wishlistable! Click below to begin making your wishlist :)
     </h3>
+    <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+    <div class="row hidden" id="myListRow">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="title" id="listTitle" type="text" class="white-text">
+            <label for="first_name">Title</label>
+          </div>
+        </div>
+        <button id="createList" class="waves-effect waves-light btn-large">Create List</button>
+      </form>
+    </div>
+    <div class="title">
+      <h3>
+        My Lists
+      </h3>
+    </div>
+    <div class="collection" id="myLists"></div>
   </div>
-  <div class="collection" id="myLists"></div>  
-
-
-  
-
-</div>
-
-
 
   <script src="./assets/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script>
-
-
-
-  localStorage.getItem('token')
-    if (localStorage.getItem("token") === null) {
-      window.location = '/register'
-    } 
-     
-
-  function makeid(length) {
-      var result = '';
-      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-          charactersLength));
-      }
-      return result;
-    }
-
-  document.getElementById("addList").addEventListener('click', event => {
-    document.getElementById('myListRow').classList.remove('hidden')
-  })
-
-   document.getElementById('createList').addEventListener('click', event => {
-      event.preventDefault()
-      let randomURL = makeid(10)
-      // console.log(randomURL)
-
-
-      // console.log(tabField.value)
-      let newList = {
-        title: document.getElementById('listTitle').value,
-        randomURL: randomURL
-      }
-      axios.post('/api/lists', newList, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => {
-          // console.log(res)
-          // alert('your list has been created :)')
-          window.location = `./makeList/${randomURL}`
-        })
-
-    })
-
-    axios.get(`/api/lists/users`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(({ data }) => {
-          // console.log(data)
-
-          data.forEach(list=>{
-          document.getElementById('myLists').innerHTML += `
-          
-          <h5><a data-link="${list.randomURL}" href="/makeList/${list.randomURL}">${list.title}</a></h5>
-          
-          
-          `
-          })
-        })
-    
-
-    
-
-
-
-</script>
+  <script src="assets/js/index.js">
+  </script>
 </body>
 
 </html>
