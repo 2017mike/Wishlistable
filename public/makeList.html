@@ -131,10 +131,10 @@
       }
     })
       .then(({ data }) => {
-        console.log(data)
+        // console.log(data)
 
         if(data.length == 0){
-          console.log('nothing')
+          // console.log('nothing')
         }
 
 
@@ -142,14 +142,14 @@
           if (listId == list.randomURL) {
             newID = list.id
             newListTitle = list.title
-            console.log(newID)
+            // console.log(newID)
             newListData = list
           }
         })
         
-        console.log(newID)
+        // console.log(newID)
         document.getElementById('title').innerHTML = `<h2> ${newListTitle} </h2>`
-        console.log(newListTitle)
+        // console.log(newListTitle)
        
       
         axios.get(`/api/items`, {
@@ -158,13 +158,13 @@
           }
         })
           .then(({ data }) => {
-            console.log(data), 'items'
+            // console.log(data), 'items'
             
             data.forEach(item => {
               
-              console.log(newID)
+              // console.log(newID)
               if (item.lid == newID) {
-                console.log('da same')
+                // console.log('da same')
                 document.getElementById('myItemsDiv').innerHTML += `
                 <li  class = "collection-item black white-text"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
                 <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
@@ -187,12 +187,12 @@
           return
         }
         let linkArea = document.getElementById('myLink').value
-        console.log(linkArea)
+        // console.log(linkArea)
         let subStringedLink = linkArea.substring(0, 3)
 
         if (subStringedLink === 'www') {
           linkArea = 'https://' + linkArea
-          console.log(subStringedLink)
+          // console.log(subStringedLink)
         }
          else if (subStringedLink != 'htt') {
           linkArea = 'https://www.' + linkArea
@@ -255,7 +255,7 @@
   function Copy() {
       
       let newUrl = document.getElementById('copyableLink')
-      console.log(newUrl)
+      // console.log(newUrl)
       newUrl.select();
       document.execCommand("copy")
       alert('link copied! :)')

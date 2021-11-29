@@ -157,7 +157,7 @@
    document.getElementById('createList').addEventListener('click', event => {
       event.preventDefault()
       let randomURL = makeid(10)
-      console.log(randomURL)
+      // console.log(randomURL)
 
 
       // console.log(tabField.value)
@@ -171,7 +171,7 @@
         }
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           // alert('your list has been created :)')
           window.location = `./makeList/${randomURL}`
         })
@@ -184,7 +184,7 @@
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
 
           data.forEach(list=>{
           document.getElementById('myLists').innerHTML += `
