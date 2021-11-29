@@ -6,14 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User's Wishlist</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="/assets/all.css">
 
   <style>
+    body {
+      font-family: Roboto, arial;
+      background: black;
+      color: rgb(241, 241, 241);
+      }
+
+
     .checkBtn {
       cursor: pointer;
     }
@@ -75,6 +82,9 @@
   </nav>
 
   <ul class="sidenav" id="mobile-demo">
+    <li> <a style="padding-top: 10px;" href="/home">Home</a> </li>
+    <br>
+    <br>
     <li id="signOutNav"></li>
   </ul>
 
@@ -187,12 +197,12 @@
                 } else {
 
                   document.getElementById('myItemsDiv').innerHTML += `
-                <li data-description='${item.description}' class="collection-item"> ${item.description}
+                <li data-description='${item.description}' class="collection-item black white-text"> ${item.description}
                 <a class="truncate" data-link="${item.link}" target="_blank" href="${item.link}">${item.link}</a> 
                 <br>
                 <i  class="material-icons green-text modal-trigger">check</i>
                 <div class="myModal hidden">
-                  <div class="modal-content">
+                  <div class="modal-content black white-text">
                   Clicking this means that you have bought the item. Please click the checkmark below if you have bought this item! If not, press cancel or anywhere else on the page. 
                   <br>
                   <br>

@@ -5,14 +5,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Your Wishlist</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="/assets/all.css">
 
   <style>
+
+      body {
+      font-family: Roboto, arial;
+      background: black;
+      color: rgb(241, 241, 241);
+      }
+
+     
 
     .deleteBtn {
       cursor: pointer;
@@ -34,6 +42,9 @@
   </nav>
   
   <ul class="sidenav" id="mobile-demo">
+    <li> <a style="padding-top: 10px;" href="/home">Home</a> </li>
+    <br>
+    <br>
     <li id="signOutNav"></li>
   </ul>
 
@@ -44,7 +55,9 @@
   <div id="title" class="center"></div>
 
 <div class="row center">
-  Add an item, with an optional link. Once you've made your list, you can share your link with family and friends :). You can always come back and update your list :)
+  <h5>
+  Add each item, with an optional link. Once you've made your list, you can share your link with family and friends :). You can always come back and update your list :)
+  </h5>
  
 </div>
 
@@ -54,11 +67,11 @@
   <form class="col s12">
     <div class="row">
       <div class="input-field col s12">
-        <input placeholder="title" id="myDescription" type="text" class="validate">
+        <input placeholder="" id="myDescription" type="text" class="validate white-text">
         <label for="first_name">Title/description</label>
       </div>
       <div class="input-field col s12">
-        <input id="myLink" type="text">
+        <input id="myLink" type="text" class="white-text">
         <label for="link">Link</label>
       </div>
     </div>
@@ -66,12 +79,12 @@
     <a id="addItem" class="waves-effect waves-light btn-small">Add Item</a>
 
 
-    <div class="collection" id="myItemsDiv"></div>
+    <div class="collection" style="background-color: black;" id="myItemsDiv"></div>
    
    
   
     <a href="#shareLink" id="shareList" class="waves-effect waves-light btn-small modal-trigger">Share List</a>
-    <div class="modal" id="shareLink"></div>
+    <div class="modal black white-text" id="shareLink"></div>
 
 
 
@@ -153,7 +166,7 @@
               if (item.lid == newID) {
                 console.log('da same')
                 document.getElementById('myItemsDiv').innerHTML += `
-                <li  class = "collection-item"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
+                <li  class = "collection-item black white-text"> ${item.description} <a class="truncate" target="_blank" href="${item.link}">${item.link}</a> 
                 <i data-id='${item.id}' class="material-icons deleteBtn red-text">delete</i>
                 </li>
                 `
@@ -203,7 +216,7 @@
             document.getElementById('myDescription').value = ''
             document.getElementById('myLink').value = ''
             document.getElementById('myItemsDiv').innerHTML += `
-          <li class ="collection-item"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}
+          <li class ="collection-item black white-text"> ${data.description} <a class="truncate" target="_blank" href="${data.link}">${data.link}
             
             </a> 
           <i data-id='${data.id}' class="material-icons deleteBtn red-text">delete</i>
@@ -235,10 +248,25 @@
   document.getElementById('shareList').addEventListener('click', event => {
       document.getElementById('shareLink').innerHTML = `
       <h5> Shareable Link: </h5>
-  <h5> https://mywishlistio.herokuapp.com/list/${listId} </h5>
+  <input class="black white-text" value="https://mywishlistio.herokuapp.com/list/${listId}" id="copyableLink"></input>
+  <button class="btn-small" id="copyLink"> copy link </button>
 
   `
+  function Copy() {
+      
+      let newUrl = document.getElementById('copyableLink')
+      console.log(newUrl)
+      newUrl.select();
+      document.execCommand("copy")
+      alert('link copied! :)')
+    }
+    document.getElementById('copyLink').addEventListener('click', event => {
+      Copy()
     })
+    })
+
+
+   
 
 
   
