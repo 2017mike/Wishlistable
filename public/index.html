@@ -5,12 +5,60 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="./assets/all.css">
-  <title>MyWishList Home</title>
+  <title>Wishlistable Home</title>
 
 <style>
+    body {
+      font-family: Cutive Mono, arial;
+      background: #222;
+      color: rgb(241, 241, 241);
+      /* background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+      padding-top: 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+
+      padding-right: 0 !important;
+      z-index: 0 !important; */
+    }
+
+  
+   
+    .swal2-shown {
+      display: flex;
+      height: 112vh;
+      width: 100vw;
+    }
+
+    .usernameField {
+      font-size: 16px;
+      color: darkgray;
+    }
+
+    .container {
+      animation: showUp 0.5s cubic-bezier(0.18, 1.3, 1, 1) forwards;
+
+    }
+
+
+    @media screen and (max-width: 676px) {
+      .myFont {
+        font-size: xx-large;
+      }
+    }
+
+    .myInput {
+      font-family: Cutive Mono, arial;
+    }
  
 </style>
 </head>
@@ -20,7 +68,7 @@
 
   <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo">MyWishList</a>
+      <a href="/" class="brand-logo">Wishlistable</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li id="signOutConditional"></li>
@@ -29,6 +77,9 @@
   </nav>
   
   <ul class="sidenav" id="mobile-demo">
+    <li> <a style="padding-top: 10px;" href="/home">Home</a> </li>
+    <br>
+    <br>
     <li id="signOutNav"></li>
   </ul>
 
@@ -36,7 +87,7 @@
  
 <div class="container">
   <h3 id="myTitle">
-    Hello, welcome to MyWishList! Click below to begin making your wishlist :)
+    Hello, welcome to Wishlistable! Click below to begin making your wishlist :)
   </h3>
 
   <a id="addList" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>

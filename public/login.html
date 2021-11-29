@@ -4,26 +4,73 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log in to MyWishList</title>
+  <title>Log in to Wishlistable</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/all.css">
 
   <style>
-    body {
-      background-color: gray;
+      body {
+      font-family: Cutive Mono, arial;
+      background: #222;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+      padding-top: 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+
+      padding-right: 0 !important;
+      z-index: 0 !important;
+    }
+
+    html {
+      overflow-y: auto;
+    }
+
+   
+    .swal2-shown {
+      display: flex;
+      height: 112vh;
+      width: 100vw;
+    }
+
+    .usernameField {
+      font-size: 16px;
+      color: darkgray;
+    }
+
+    .container {
+      animation: showUp 0.5s cubic-bezier(0.18, 1.3, 1, 1) forwards;
+
+    }
+
+
+    @media screen and (max-width: 676px) {
+      .myFont {
+        font-size: xx-large;
+      }
+    }
+
+    .myInput {
+      font-family: Cutive Mono, arial;
     }
     
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="row">
-      <div class="col m6  s12 white-text left">
-        <h2 class="myFont">myWishList.io</h2>
+    <div class="row center">
+      <div class="col m12  s12 l7 white-text left">
+        <h2 class="myFont">Wishlistable</h2>
   
       </div>
-      <div class="z-depth-1 transparent   myLog  col s12 m6 "
-        style="display: inline-block; padding: 32px 30px 0px 48px; border: 1px solid rgb(74, 74, 74); margin-top: 12px;">
+      <div class="z-depth-1 transparent center  myLog  col s12 m12 l5 "
+         style="display: inline-block; padding: 32px 32px 0px 32px; border: 1px solid #EEE; margin-top: 12px;">
         <h5 class="white-text center ">Login</h5>
         <form class="col s12 " method="post">
           <div class='row center-align'>
