@@ -190,7 +190,10 @@
         // console.log(linkArea)
         let subStringedLink = linkArea.substring(0, 3)
 
-        if (subStringedLink === 'www') {
+        if (subStringedLink === '') {
+          linkArea = linkArea
+        }
+        else if (subStringedLink === 'www') {
           linkArea = 'https://' + linkArea
           // console.log(subStringedLink)
         }
