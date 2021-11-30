@@ -16,7 +16,7 @@ function displaySignOut() {
   if (localStorage.getItem("token") === null) {
     const signOut2 = document.createElement('li')
     signOut2.innerHTML = `
-      <li id="logInButtonMain"><a href="/login">Log In</a></li>
+      <li  id="logInButtonMain"><a class="white-text" href="/login">Log In</a></li>
       `
     document.getElementById('signOutConditional').append(signOut2)
     document.getElementById('logInButtonMain').addEventListener('click', event => {
@@ -28,7 +28,7 @@ function displaySignOut() {
 
     const signOut1 = document.createElement('li')
     signOut1.innerHTML = `
-      <li id="signOutMain"><a href="/login">Sign Out</a></li>
+      <li  id="signOutMain"><a class="white-text" href="/login">Sign Out</a></li>
       `
     document.getElementById('signOutConditional').append(signOut1)
     document.getElementById('signOutMain').addEventListener('click', event => {
@@ -45,7 +45,7 @@ function displaySignOutNav() {
   if (localStorage.getItem("token") === null) {
     const signOut2 = document.createElement('li')
     signOut2.innerHTML = `
-      <li id="logInButtonNav"><a href="/login">Log In</a></li>
+      <li  id="logInButtonNav"><a class="white-text" href="/login">Log In</a></li>
       `
     document.getElementById('signOutNav').append(signOut2)
     document.getElementById('logInButtonNav').addEventListener('click', event => {
@@ -55,7 +55,7 @@ function displaySignOutNav() {
 
     const signOut1 = document.createElement('li')
     signOut1.innerHTML = `
-      <li id="signOutButtonNav"><a href="/login">Sign Out</a></li>
+      <li  id="signOutButtonNav"><a class="white-text" href="/login">Sign Out</a></li>
       `
     document.getElementById('signOutNav').append(signOut1)
     document.getElementById('signOutButtonNav').addEventListener('click', event => {

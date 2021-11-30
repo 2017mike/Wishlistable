@@ -87,7 +87,7 @@
   </nav>
 
   <ul class="sidenav" id="mobile-demo">
-    <li> <a style="padding-top: 10px;" href="/home">Home</a> </li>
+    <li> <a style="padding-top: 10px;" class="white-text" href="/home">Home</a> </li>
     <br>
     <br>
     <li id="signOutNav"></li>
@@ -261,7 +261,7 @@
       if (localStorage.getItem("token") === null) {
         const signOut2 = document.createElement('li')
         signOut2.innerHTML = `
-      <li id="logInButtonMain"><a href="/login">Log In</a></li>
+      <li class="white-text" id="logInButtonMain"><a class="white-text" href="/login">Log In</a></li>
       `
         document.getElementById('signOutConditional').append(signOut2)
         document.getElementById('logInButtonMain').addEventListener('click', event => {
@@ -273,7 +273,7 @@
 
         const signOut1 = document.createElement('li')
         signOut1.innerHTML = `
-      <li id="signOutMain"><a href="/login">Sign Out</a></li>
+      <li class="white-text" id="signOutMain"><a class="white-text" href="/login">Sign Out</a></li>
       `
         document.getElementById('signOutConditional').append(signOut1)
         document.getElementById('signOutMain').addEventListener('click', event => {
@@ -290,7 +290,7 @@
       if (localStorage.getItem("token") === null) {
         const signOut2 = document.createElement('li')
         signOut2.innerHTML = `
-      <li id="logInButtonNav"><a href="/login">Log In</a></li>
+      <li class="white-text" id="logInButtonNav"><a class="white-text" href="/login">Log In</a></li>
       `
         document.getElementById('signOutNav').append(signOut2)
         document.getElementById('logInButtonNav').addEventListener('click', event => {
@@ -300,7 +300,7 @@
 
         const signOut1 = document.createElement('li')
         signOut1.innerHTML = `
-      <li id="signOutButtonNav"><a href="/login">Sign Out</a></li>
+      <li  id="signOutButtonNav"><a class="white-text" href="/login">Sign Out</a></li>
       `
         document.getElementById('signOutNav').append(signOut1)
         document.getElementById('signOutButtonNav').addEventListener('click', event => {
