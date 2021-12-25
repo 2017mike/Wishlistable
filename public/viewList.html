@@ -177,6 +177,7 @@
         document.getElementById('title').innerHTML =
           `<h2> ${data.title} </h2>
         by <h4> ${data.User.username} </h4>
+        <i data-id="${newID}" class="material-icons blue-text mySave">stars</i>
         `
         document.title=`${data.User.username}'s wishlist`
 
@@ -324,7 +325,23 @@
     })
 
 
-
+    document.addEventListener('click', event => {
+      if(event.target.classList.contains('mySave')){
+        
+        let newSavedList = {
+          listId: event.target.dataset.id
+        }
+        axios.post('/api/savedLists', newSavedList, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+          })
+        .then(res => {
+          console.log(res, 'list saved!')
+        
+      })
+    }
+  })
 
 
 

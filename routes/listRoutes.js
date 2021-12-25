@@ -24,7 +24,7 @@ router.get('/lists/users', passport.authenticate('jwt'), (req, res) => {
 })
 
 
-//get one list by id
+//get one list by id(???)
 router.get('/list/:id',
   // passport.authenticate('jwt'), 
   (req, res) => List.findOne({
@@ -33,6 +33,19 @@ router.get('/list/:id',
   })
     .then(lists => res.json(lists))
     .catch(err => console.log(err)))
+
+//get one list by id
+router.get('/lists/:id',
+  // passport.authenticate('jwt'), 
+  (req, res) => List.findOne({
+    where: { id: req.params.id }
+    , include: [User]
+  })
+    .then(lists => res.json(lists))
+    .catch(err => console.log(err)))
+  
+
+
 
 //create list
 router.post('/lists', passport.authenticate('jwt'), (req, res) => List.create({

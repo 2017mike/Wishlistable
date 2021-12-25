@@ -5,6 +5,7 @@ const passport = require('passport')
 //led with the /api route
 
 //get all lists from all users and all the comments per post
+let listDataArray = []
 router.get('/savedLists',
   //  passport.authenticate('jwt'),
   (req, res) => SavedList.findAll({
@@ -17,9 +18,12 @@ router.get('/savedLists',
 router.get('/savedLists/users', passport.authenticate('jwt'), (req, res) => {
   SavedList.findAll({
     where: { uid: req.user.id },
-    include: [User, List]
+    include: [User]
   })
-    .then(savedLists => res.json(savedLists))
+    .then(savedLists => {
+    res.json(savedLists)
+    })
+      
     .catch(err => console.log(err))
 })
 

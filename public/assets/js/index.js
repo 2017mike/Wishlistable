@@ -60,3 +60,36 @@ axios.get(`/api/lists/users`, {
           `
     })
   })
+
+
+
+axios.get('/api/savedLists/users', {
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  }
+})
+  .then(res => {
+    console.log(res.data)
+    let savedListData = res.data
+    savedListData.forEach(list => {
+    // let savedListElem = document.createElement('li')
+    // savedListElem.innerHTML = `
+    // <h5><a data-link="${list.randomURL}" href="/makeList/${list.randomURL}">${list.title}</a></h5>
+    console.log(list.listId)
+      axios.get(`/api/lists/${list.listId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+    .then(res=> {
+      console.log(res.data)
+       let savedListElem = document.createElement('li')
+     savedListElem.innerHTML = `
+    <h5><a data-link="${res.data.randomURL}" href="/list/${res.data.randomURL}">${res.data.title}</a></h5>`
+      document.getElementById('mySavedLists').append(savedListElem)
+    })
+  })
+})
+    
+
+  .catch(err => console.log(err))
