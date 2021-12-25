@@ -83,10 +83,8 @@ axios.get('/api/savedLists/users', {
       })
     .then(res=> {
       console.log(res.data)
-       let savedListElem = document.createElement('li')
-     savedListElem.innerHTML = `
+    document.getElementById('mySavedLists').innerHTML += `
     <h5><a data-link="${res.data.randomURL}" href="/list/${res.data.randomURL}">${res.data.title}</a></h5>`
-      document.getElementById('mySavedLists').append(savedListElem)
     })
   })
 })
