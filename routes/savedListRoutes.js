@@ -51,7 +51,7 @@ router.post('/savedLists', passport.authenticate('jwt'), (req, res) => SavedList
 //   .catch(err => console.log(err)))
 
 // delete SavedList
-router.delete('/savedList/:id', passport.authenticate('jwt'), (req, res) => SavedList.destroy({ where: { listId: req.params.id } })
+router.delete('/savedList/:id', passport.authenticate('jwt'), (req, res) => SavedList.destroy({ where: { listId: req.params.id, uid: req.user.id } })
   .then(() => res.sendStatus(200))
   .catch(err => console.log(err)))
 
