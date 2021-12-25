@@ -17,8 +17,7 @@ router.get('/savedLists',
 //get all lists from one user
 router.get('/savedLists/users', passport.authenticate('jwt'), (req, res) => {
   SavedList.findAll({
-    where: { uid: req.user.id },
-    include: [User]
+    where: { uid: req.user.id }
   })
     .then(savedLists => {
     res.json(savedLists)
@@ -51,10 +50,10 @@ router.post('/savedLists', passport.authenticate('jwt'), (req, res) => SavedList
 //   .then(() => res.sendStatus(200))
 //   .catch(err => console.log(err)))
 
-//delete post
-// router.delete('/lists/:id', passport.authenticate('jwt'), (req, res) => List.destroy({ where: { id: req.params.id } })
-//   .then(() => res.sendStatus(200))
-//   .catch(err => console.log(err)))
+// delete SavedList
+router.delete('/savedList/:id', passport.authenticate('jwt'), (req, res) => SavedList.destroy({ where: { listId: req.params.id } })
+  .then(() => res.sendStatus(200))
+  .catch(err => console.log(err)))
 
 //export routes
 module.exports = router

@@ -162,6 +162,7 @@
 
     let newListData
     let newID
+    let usersSavedLists
 
     axios.get(`/api/list/${listId}`, {
       headers: {
@@ -177,7 +178,7 @@
         document.getElementById('title').innerHTML =
           `<h2> ${data.title} </h2>
         by <h4> ${data.User.username} </h4>
-        <i data-id="${newID}" class="material-icons blue-text mySave">stars</i>
+        <i id="mySaveButton" data-id="${newID}" class="material-icons blue-text mySave">stars</i>
         `
         document.title=`${data.User.username}'s wishlist`
 
@@ -229,6 +230,22 @@
               }
             }
             )
+             axios.get('/api/savedLists/users', {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            })
+              .then(ress => {
+                console.log(ress.data, 'this is savedLists')
+                usersSavedLists = ress.data
+                ress.data.forEach(list => {
+                  if(list.listId == newListData.id){
+                    console.log(list.listId, newListData.id)
+                    document.getElementById('mySaveButton').classList.remove('blue-text')
+                    document.getElementById('mySaveButton').classList.add('yellow-text')
+                  }
+                })
+              })
           })
       })
 
@@ -324,13 +341,30 @@
       }
     })
 
-
+   
+    //save button event listener
     document.addEventListener('click', event => {
       if(event.target.classList.contains('mySave')){
-        
+         let isSaved = false
+        console.log(usersSavedLists)
+
         let newSavedList = {
           listId: event.target.dataset.id
-        }
+          }
+
+          console.log(event.target.dataset.id)
+          console.log(newListData.id)
+          
+        usersSavedLists.forEach(list => {
+        console.log(list.listId, 'savedList id')
+        console.log(newListData.id, 'list id')
+        
+          if (newListData.id == list.listId) {
+            console.log(newListData.id, list.listId)
+            isSaved = true
+          }
+        })
+        if (isSaved == false) {
         axios.post('/api/savedLists', newSavedList, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -338,14 +372,31 @@
           })
         .then(res => {
           console.log(res, 'list saved!')
-        
+          alert('list saved!')
+          window.location.reload()
       })
+    } else {
+      console.log('you already have dis list saved yo')
+      axios.delete(`/api/savedList/${newListData.id}`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          .then(res=> {
+            console.log('list unsaved!')
+            alert('list unsaved!')
+            window.location.reload()
+          })
+          .catch(err => console.log(err))
+    }
     }
   })
 
 
+  //save button coloration (saved or unsaved)
 
-
+ 
+   
 
 
 
